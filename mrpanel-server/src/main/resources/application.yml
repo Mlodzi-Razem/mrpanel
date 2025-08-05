@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "mrpanel-server"
+  datasource:
+    url: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}"
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: "org.postgresql.Driver"
+  flyway:
+    url: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}"
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: "org.postgresql.Driver"
