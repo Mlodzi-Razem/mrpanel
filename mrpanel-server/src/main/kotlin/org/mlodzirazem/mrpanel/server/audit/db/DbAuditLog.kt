@@ -23,5 +23,6 @@ class DbAuditLog : BaseEntity() {
     var url: String? = null;
 
     @Column(nullable = true, updatable = false)
+    @Lob
     var exception: String? = null
 }

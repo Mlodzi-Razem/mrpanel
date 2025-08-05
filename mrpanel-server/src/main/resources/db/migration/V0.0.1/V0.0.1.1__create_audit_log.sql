@@ -19,5 +19,5 @@ CREATE TABLE audit_log
     operation_id varchar(255) not null,
     payload      jsonb,
     url          VARCHAR(4095),
-    exception    varchar(255)
+    exception    TEXT
 );
