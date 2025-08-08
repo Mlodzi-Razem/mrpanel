@@ -27,6 +27,8 @@ BEGIN
     SET preferred_name = NEW.preferred_name,
         email          = NEW.email
     WHERE id = NEW.id;
+
+    RETURN NEW;
 END;
 $$;
 

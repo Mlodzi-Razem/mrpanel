@@ -1,8 +1,9 @@
 package org.mlodzirazem.mrpanel.server.db
 
-import jakarta.persistence.Column
-import jakarta.persistence.Id
-import jakarta.persistence.MappedSuperclass
+import jakarta.persistence.*
+import org.hibernate.annotations.ColumnDefault
+import org.hibernate.annotations.Generated
+import org.hibernate.generator.EventType
 import java.time.LocalDateTime
 
 /**
@@ -22,10 +23,17 @@ import java.time.LocalDateTime
  */
 @MappedSuperclass
 abstract class BaseEntity {
-    @field:Id
-    @field:Column(nullable = false, updatable = false)
+    companion object {
+        const val SEQUENCE_NAME = "id_sequence"
+    }
+
+    @Id
+    @Column(nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
     var id: Long? = null
 
-    @Column(nullable = false, updatable = false, name = "added_at")
+    @Column(updatable = false, name = "added_at")
+    @ColumnDefault("current_timestamp")
+    @Generated(event = [EventType.INSERT])
     var addedAt: LocalDateTime? = null
 }

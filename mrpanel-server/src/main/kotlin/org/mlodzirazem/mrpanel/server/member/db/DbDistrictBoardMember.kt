@@ -8,13 +8,11 @@ import org.mlodzirazem.mrpanel.server.member.MemberDistrictRole
 @Entity
 @Table(name = "district_board_members")
 @SequenceGenerator(
-    name = "seq_district_board_members_id",
+    name =  BaseEntity.SEQUENCE_NAME,
     sequenceName = "seq_district_board_members_id",
     allocationSize = 50
 )
 class DbDistrictBoardMember : BaseEntity() {
-    @GeneratedValue(generator = "seq_district_board_members_id", strategy = GenerationType.SEQUENCE)
-    override var id: Long? = null
 
     @Version
     @Column

@@ -6,11 +6,8 @@ import org.mlodzirazem.mrpanel.server.db.BaseEntity
 
 @Entity
 @Table(name = "members")
-@SequenceGenerator(name = "seq_members_id", sequenceName = "seq_members_id", allocationSize = 1)
+@SequenceGenerator(name = BaseEntity.SEQUENCE_NAME, sequenceName = "seq_members_id", allocationSize = 1)
 class DbMember : BaseEntity() {
-    @GeneratedValue(generator = "seq_member_id", strategy = GenerationType.SEQUENCE)
-    override var id: Long? = null
-
     @Version
     @Column
     @ColumnDefault("0")

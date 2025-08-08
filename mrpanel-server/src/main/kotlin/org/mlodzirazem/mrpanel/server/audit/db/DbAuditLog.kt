@@ -5,11 +5,8 @@ import org.mlodzirazem.mrpanel.server.db.BaseEntity
 
 @Entity
 @Table(name = "audit_log")
-@SequenceGenerator(name = "seq_audit_log_id", sequenceName = "seq_audit_log_id", allocationSize = 50, initialValue = 0)
+@SequenceGenerator(name = BaseEntity.SEQUENCE_NAME, sequenceName = "seq_audit_log_id", allocationSize = 50, initialValue = 0)
 class DbAuditLog : BaseEntity() {
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_audit_log_id")
-    override var id: Long? = null
-
     @Column(name = "member_id", nullable = true, updatable = false)
     var memberId: Long? = null
 
