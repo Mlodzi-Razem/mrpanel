@@ -1,0 +1,35 @@
+:root {
+  /* Color palette generated using https://www.hover.dev/css-color-palette-generator */
+  --color-primary: #871057;
+  --color-primary-content: #f4a2d3;
+  --color-primary-light: #b51574;
+  --color-primary-dark: #590b3a;
+
+  --color-secondary: #871025;
+  --color-secondary-content: #f4a2b0;
+  --color-secondary-light: #b51531;
+  --color-secondary-dark: #590b18;
+
+  --color-foreground: #fbfbfb;
+  --color-background: #f1eff0;
+  --color-border: #e2dde0;
+
+  --color-copy: #292327;
+  --color-copy-light: #6e5e67;
+  --color-copy-lighter: #95848e;
+
+  --color-success: #108710;
+  --color-success-content: #a2f4a2;
+
+  --color-warning: #878710;
+  --color-warning-content: #f4f4a2;
+
+  --color-error: #871010;
+  --color-error-content: #f4a2a2;
+
+  /****************************/
+
+  --border-radius: 0.4rem;
+
+  --box-shadow: 3px 4px 21px -12px var(--color-copy);
+}

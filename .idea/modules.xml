@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/mrpanel.iml" filepath="$PROJECT_DIR$/mrpanel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mrpanel-ui-web/mrpanel-ui-web.iml" filepath="$PROJECT_DIR$/mrpanel-ui-web/mrpanel-ui-web.iml" />
     </modules>
   </component>
 </project>

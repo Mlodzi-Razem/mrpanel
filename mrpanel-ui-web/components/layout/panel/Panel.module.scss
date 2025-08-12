@@ -1,0 +1,12 @@
+.panel {
+  min-width: 8rem;
+  min-height: 3rem;
+
+  background: var(--color-foreground);
+  border-radius: var(--border-radius);
+  border-color: var(--color-border);
+
+  padding: 0.75rem 0.75rem;
+
+  box-shadow: var(--box-shadow);
+}
