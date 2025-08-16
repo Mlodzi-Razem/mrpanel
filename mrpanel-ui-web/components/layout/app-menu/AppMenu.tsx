@@ -5,8 +5,7 @@ import Link from "next/link";
 import styles from './AppMenu.module.scss';
 import classes from "@/util/classes";
 import { usePathname } from "next/navigation";
-import VerticalDivider from "@/components/layout/divider/VerticalDivider";
-import { LogOut, UsersRound } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 interface MenuItem {
     label: string,
@@ -16,7 +15,10 @@ interface MenuItem {
 
 const AppMenuItem = memo((props: { item: MenuItem }) => {
     const {active, url, label} = props.item;
-    return <Link className={classes(styles.menuItem, {[styles.menuItemActive]: active})} href={url}>{label}</Link>
+    return <Link className={classes(styles.menuItem, {[styles.menuItemActive]: active})}
+                 href={url}
+                 aria-disabled={active}
+                 prefetch={false}>{label}</Link>
 });
 AppMenuItem.displayName = "AppMenuItem";
 
@@ -31,7 +33,7 @@ const AppMenuStateless = memo((props: {
             {props.menuItems.map(item => <AppMenuItem item={item} key={item.url + item.label}/>)}
         </div>
         <div>
-            <LogOut />
+            <LogOut/>
         </div>
     </div>;
 });
@@ -46,11 +48,16 @@ export type AppMenuProps = {
     menuItems: AppMenuItem[]
 }
 
+function matchUrl(item: AppMenuItem, pathname: string) {
+    console.log({pathname, url: item.url});
+    return pathname.startsWith(item.url + '?') || item.url === pathname;
+}
+
 export default function AppMenu({menuItems}: AppMenuProps) {
     const pathname = usePathname();
     const items = menuItems.map(item => ({
         ...item,
-        active: item.url.startsWith(pathname + '/') || item.url === pathname
+        active: matchUrl(item, pathname)
     }))
 
     return <AppMenuStateless menuItems={items}/>;

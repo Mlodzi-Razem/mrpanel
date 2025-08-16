@@ -11,15 +11,23 @@
 }
 
 .menuItem {
+  color: var(--color-copy);
+
   height: 100%;
   padding: 0.5rem;
 
   &:hover {
-    background-color: var(--color-border);
+    background-color: var(--color-background);
     border-radius: var(--border-radius);
   }
 }
 
 .menuItemActive {
   font-weight: bold;
+  color: var(--color-primary);
+  cursor: default;
+
+  &:hover {
+    background-color: inherit;
+  }
 }
