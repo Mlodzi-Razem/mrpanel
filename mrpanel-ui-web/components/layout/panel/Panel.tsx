@@ -10,9 +10,13 @@ export type PanelProps = React.PropsWithChildren<{
 }>;
 
 const Panel = forwardRef<HTMLDivElement, PanelProps>(({children, className, style, shadow}, ref) => {
-    return <div ref={ref} className={classes(styles.panel, className, {[styles.shadow]: shadow})} style={style}>
-        {children}
-    </div>;
+    return <div
+      ref={ref}
+      className={classes(styles.panel, className, { [styles.shadow]: !!shadow })}
+      style={style}
+    >
+      {children}
+    </div>
 });
 Panel.displayName = "Panel";
 

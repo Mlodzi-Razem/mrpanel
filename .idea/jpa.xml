@@ -2,6 +2,8 @@
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="newEntityIdStrategy" />
+    <option name="reLastEntityCreationPackage" value="mrpanel-server/src/main/kotlin/org/mlodzirazem/mrpanel/server" />
+    <option name="reverseEngineeringLastDbConnectionId" value="e19c7725-c569-4f9d-ae1b-8c1d4c7245c8" />
   </component>
   <component name="JpaPluginProjectSettings">
     <option name="lastSelectedLanguage" value="Kotlin" />

@@ -3,7 +3,8 @@ import { Lato } from "next/font/google";
 import "./globals.scss";
 import React, { Suspense } from "react";
 import Spinner from "@/components/loader/Spinner";
-
+import Providers from "@/components/SignInButton/Providers";
+import DigBar from "@/components/DigBar/DigBar";
 const lato = Lato({
     variable: "--font-lato",
     subsets: ["latin", "latin-ext"],
@@ -33,7 +34,9 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${lato.className}`}>
                 <Suspense fallback={<Loading/>}>
-                    {children}
+                    <Providers>
+                        <DigBar/>
+                        {children}</Providers>
                 </Suspense>
             </body>
         </html>
