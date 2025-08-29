@@ -1,0 +1,54 @@
+$border: 1px solid var(--color-border);
+
+.menuContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  box-shadow: var(--box-shadow);
+  width: 10rem;
+  background-color: var(--color-foreground);
+}
+
+.alignLeft {
+  transform: translateX(-75%);
+}
+
+.alignRight {
+  transform: translateX(75%);
+}
+
+.item {
+  width: 100%;
+  display: block;
+  padding: 1rem;
+  cursor: pointer;
+
+
+  border-left: $border;
+  border-right: $border;
+
+  &:hover {
+    background-color: var(--color-background);
+  }
+
+  &:first-of-type {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    border-top: $border;
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom: $border;
+  }
+}
+
+.menuContainer:hover .content {
+  display: block;
+}
