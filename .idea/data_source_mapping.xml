@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="DataSourcePerFileMappings">
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/e19c7725-c569-4f9d-ae1b-8c1d4c7245c8/console.sql" value="e19c7725-c569-4f9d-ae1b-8c1d4c7245c8" />
-    <file url="file://$PROJECT_DIR$/mrpanel-server/src/main/kotlin/org/mlodzirazem/mrpanel/server/controller/HelloController.kt" value="e19c7725-c569-4f9d-ae1b-8c1d4c7245c8" />
-  </component>
-</project>
