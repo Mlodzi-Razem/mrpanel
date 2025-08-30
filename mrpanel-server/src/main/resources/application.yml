@@ -1,12 +1,3 @@
-DB_HOST: "localhost"
-DB_PORT: "5432"
-DB_DATABASE: "postgres"
-DB_USER: "postgres"
-DB_PASSWORD: "zabimaru1"
-# mrpanel-server/src/main/resources/application.yml
-# This file is used to configure the Spring application properties for mrpanel-server.
-# It includes database connection settings and Flyway migration configurations.
-
 spring:
   application:
     name: "mrpanel-server"
