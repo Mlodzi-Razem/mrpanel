@@ -7,7 +7,7 @@ import HoverMenu from "@/components/layout/menu/HoverMenu";
 export default function LoggedUserAvatar() {
     const session = useSession({required: true});
 
-    return <HoverMenu trigger={<Avatar image={session.data!.user?.image!}
+    return <HoverMenu trigger={<Avatar image={session.data!.user?.image}
                                        onClick={() => {}}/>}>
         <HoverMenu.Item onClick={signOut}>Wyloguj się</HoverMenu.Item>
         <HoverMenu.Item>Test</HoverMenu.Item>

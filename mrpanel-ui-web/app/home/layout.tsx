@@ -1,8 +1,8 @@
 import React, { Suspense } from "react";
 import AppMenu from "@/components/layout/app-menu/AppMenu";
 import Spinner from "@/components/loader/Spinner";
-import { MENU_ITEMS } from "@/app/MenuItems";
-import useServerSession from "@/hooks/useServerSession";
+import { MENU_ITEMS } from "@/app/menu-items";
+import getDefaultServerSession from "@/hooks/getDefaultServerSession";
 import SignInScreen from "@/components/layout/sign-in-screen/SignInScreen";
 import ClientSessionAwaiter from "@/components/session/ClientSessionAwaiter";
 
@@ -15,7 +15,7 @@ const Loading = () => <div style={{
 }}><Spinner/></div>;
 
 export default async function AuthenticatedLayout({children}: React.PropsWithChildren) {
-    const session = await useServerSession();
+    const session = await getDefaultServerSession();
 
     if (!session || !session.user) {
         return <SignInScreen/>
