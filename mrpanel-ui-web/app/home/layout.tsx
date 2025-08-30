@@ -1,8 +1,10 @@
 import React, { Suspense } from "react";
-import { redirect } from "next/navigation";
 import AppMenu from "@/components/layout/app-menu/AppMenu";
 import Spinner from "@/components/loader/Spinner";
-import { MENU_ITEMS } from "@/app/home/MenuItems";
+import { MENU_ITEMS } from "@/app/menu-items";
+import getDefaultServerSession from "@/hooks/getDefaultServerSession";
+import SignInScreen from "@/components/layout/sign-in-screen/SignInScreen";
+import ClientSessionAwaiter from "@/components/session/ClientSessionAwaiter";
 
 const Loading = () => <div style={{
     display: 'flex',
@@ -12,14 +14,14 @@ const Loading = () => <div style={{
     height: '100%'
 }}><Spinner/></div>;
 
-export default function AuthenticatedLayout({children}: React.PropsWithChildren) {
-    const isLoggedIn = true; // TODO: Implement
+export default async function AuthenticatedLayout({children}: React.PropsWithChildren) {
+    const session = await getDefaultServerSession();
 
-    if (!isLoggedIn) {
-        redirect('/login');
+    if (!session || !session.user) {
+        return <SignInScreen/>
     }
 
-    return <>
+    return <ClientSessionAwaiter fallback={<Loading/>}>
         <div style={{display: 'grid', gridTemplateRows: 'auto 1fr auto', minHeight: '100vh', width: '100%'}}>
             <AppMenu menuItems={MENU_ITEMS}/>
             <div>
@@ -31,6 +33,5 @@ export default function AuthenticatedLayout({children}: React.PropsWithChildren)
                 {/*TODO: Footer?*/}
             </div>
         </div>
-
-    </>;
+    </ClientSessionAwaiter>;
 }

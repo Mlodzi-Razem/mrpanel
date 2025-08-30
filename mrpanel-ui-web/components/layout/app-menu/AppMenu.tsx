@@ -5,7 +5,7 @@ import Link from "next/link";
 import styles from './AppMenu.module.scss';
 import classes from "@/util/classes";
 import { usePathname } from "next/navigation";
-import { LogOut } from "lucide-react";
+import LoggedUserAvatar from "@/components/layout/app-menu/LoggedUserAvatar";
 
 interface MenuItem {
     label: string,
@@ -33,7 +33,7 @@ const AppMenuStateless = memo((props: {
             {props.menuItems.map(item => <AppMenuItem item={item} key={item.url + item.label}/>)}
         </div>
         <div>
-            <LogOut/>
+            <LoggedUserAvatar/>
         </div>
     </div>;
 });
@@ -49,7 +49,6 @@ export type AppMenuProps = {
 }
 
 function matchUrl(item: AppMenuItem, pathname: string) {
-    console.log({pathname, url: item.url});
     return pathname.startsWith(item.url + '?') || item.url === pathname;
 }
 
