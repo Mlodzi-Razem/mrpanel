@@ -15,11 +15,13 @@ const Loading = () => <div style={{
 }}><Spinner/></div>;
 
 export default async function AuthenticatedLayout({children}: React.PropsWithChildren) {
-    const session = await getDefaultServerSession();
-
-    if (!session || !session.user) {
-        return <SignInScreen/>
+    try {
+        await getDefaultServerSession();
+    } catch (e) {
+        console.error(e);
+        return <SignInScreen/>;
     }
+
 
     return <ClientSessionAwaiter fallback={<Loading/>}>
         <div style={{display: 'grid', gridTemplateRows: 'auto 1fr auto', minHeight: '100vh', width: '100%'}}>
