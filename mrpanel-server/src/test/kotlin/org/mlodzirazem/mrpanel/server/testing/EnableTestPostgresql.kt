@@ -1,6 +1,7 @@
 package org.mlodzirazem.mrpanel.server.testing
 
-import org.springframework.test.context.ContextConfiguration
+import org.springframework.context.annotation.Import
+import org.springframework.test.context.TestPropertySource
 
 /**
  * Annotation to enable the configuration of a PostgreSQL test container for integration tests.
@@ -14,5 +15,5 @@ import org.springframework.test.context.ContextConfiguration
  */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
-@ContextConfiguration(initializers = [TestPostgresInitializer::class])
+@Import(TestPostgresConfiguration::class)
 annotation class EnableTestPostgresql()

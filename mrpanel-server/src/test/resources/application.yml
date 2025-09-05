@@ -2,4 +2,6 @@ spring:
   jpa:
     show-sql: true
   flyway:
-    enabled: false # use @EnableTestPostgresql instead
+    enabled: true
+  profiles:
+    active: test,google_mock

@@ -9,11 +9,13 @@ import org.mlodzirazem.mrpanel.server.member.db.DbMemberAddress
 import org.mlodzirazem.mrpanel.server.member.db.DbMemberContactDetails
 import org.mlodzirazem.mrpanel.server.member.db.DbMemberTrace
 import org.mlodzirazem.mrpanel.server.testing.EnableTestPostgresql
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.support.TransactionTemplate
 
 @SpringBootTest
 @EnableTestPostgresql
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class DbMemberTraceTest(
     private val entityManager: EntityManager,
     private val transactionTemplate: TransactionTemplate

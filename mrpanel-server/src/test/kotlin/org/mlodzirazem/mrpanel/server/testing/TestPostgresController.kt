@@ -27,8 +27,6 @@ object TestPostgresController {
     fun startContainer() {
         if (!postgresContainer.isRunning) {
             Startables.deepStart(postgresContainer).join()
-
-            runFlywayAndBackupSchema()
         }
     }
 
@@ -66,13 +64,7 @@ object TestPostgresController {
         }
     }
 
-    private fun runFlywayAndBackupSchema() {
-        // migrate the schema
-        Flyway.configure()
-            .dataSource(postgresContainer.jdbcUrl, postgresContainer.username, postgresContainer.password)
-            .load()
-            .migrate()
-
+    fun backupSchema() {
         LOG.info("Dumping migrated schema to file: $BACKUP_FILE_NAME")
         postgresContainer.execInContainer(
             "pg_dump",
