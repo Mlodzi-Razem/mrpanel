@@ -5,7 +5,7 @@ import jakarta.persistence.Embeddable
 
 @Embeddable
 class DbMemberAddress {
-    @Column(nullable = false, length = 3)
+    @Column(nullable = false, length = 3, name = "country_code")
     var countryCode: String? = null
 
     @Column(nullable = false)

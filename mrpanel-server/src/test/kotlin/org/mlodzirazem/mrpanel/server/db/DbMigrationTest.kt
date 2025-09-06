@@ -6,11 +6,14 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import org.mlodzirazem.mrpanel.server.testing.EnableTestPostgresql
 import org.mlodzirazem.mrpanel.server.testing.TestPostgresController.restoreSchema
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.support.TransactionTemplate
 
-@SpringBootTest
+@DataJpaTest
 @EnableTestPostgresql
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class DbMigrationTest(
     private val transactionTemplate: TransactionTemplate,
     @PersistenceContext private val entityManager: EntityManager
@@ -35,8 +38,9 @@ class DbMigrationTest(
     }
 })
 
-@SpringBootTest
+@DataJpaTest
 @EnableTestPostgresql
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class DbSecondContextTest(@PersistenceContext private val entityManager: EntityManager) : DescribeSpec({
     beforeSpec {
         restoreSchema()
