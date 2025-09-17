@@ -54,7 +54,7 @@ class UserAuthenticationFilterTest : DescribeSpec({
             filter.doFilter(req, res, chain)
 
             it("does not set authenticated user in request") {
-                verify(exactly = 0) { req.setAttribute(any(), any()) }
+                scopedAuthenticatedUser shouldBe null
             }
 
             it("chains the request and response") {
