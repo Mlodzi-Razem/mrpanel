@@ -6,32 +6,22 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.mockk.*
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import kotlin.reflect.KFunction
 
 class AuthResolverTest : DescribeSpec({
     describe("user") {
-        beforeTest {
-            mockkStatic(RequestContextHolder::getRequestAttributes)
-        }
-        afterTest {
-            unmockkStatic(RequestContextHolder::getRequestAttributes)
-        }
-
         val resolver = AuthResolver()
 
-        it("returns null when there is no request") {
-            every { RequestContextHolder.getRequestAttributes() } returns null
+        it("returns null when there is no user") {
             resolver.user shouldBe null
         }
 
         it("returns authenticated user when there is one") {
             val authenticatedUser = AuthenticatedUser("email", "name")
 
-            every { RequestContextHolder.getRequestAttributes() } returns mockk<ServletRequestAttributes> {
-                every { request } returns mockk {
-                    every { getAttribute(AuthenticatedUser.REQUEST_ATTRIBUTE) } returns authenticatedUser
-                }
+            ScopedValue.where(AuthenticatedUser.SCOPED_VALUE, authenticatedUser).run {
+                resolver.user shouldBeSameInstanceAs authenticatedUser
             }
-            resolver.user shouldBeSameInstanceAs authenticatedUser
         }
 
     }

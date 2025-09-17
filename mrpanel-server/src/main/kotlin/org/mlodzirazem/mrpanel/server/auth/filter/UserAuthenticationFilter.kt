@@ -1,4 +1,4 @@
-package org.mlodzirazem.mrpanel.server.filter
+package org.mlodzirazem.mrpanel.server.auth.filter
 
 import jakarta.servlet.Filter
 import jakarta.servlet.FilterChain
@@ -20,12 +20,16 @@ class UserAuthenticationFilter : Filter {
         val email = req.getHeader("X-User-Email")
         val name = req.getHeader("X-User-Name")
 
-        if (email != null && name != null) {
-            val authenticatedUser = AuthenticatedUser(email, name)
-            request.setAttribute(AuthenticatedUser.REQUEST_ATTRIBUTE, authenticatedUser)
-        }
+        val shouldPassTheUser = email != null && name != null;
 
-        chain.doFilter(request, response)
+        if (shouldPassTheUser) {
+            val authenticatedUser = AuthenticatedUser(email, name)
+            ScopedValue.where(AuthenticatedUser.SCOPED_VALUE, authenticatedUser).run {
+                chain.doFilter(request, response)
+            }
+        } else {
+            chain.doFilter(request, response)
+        }
     }
 }
 
