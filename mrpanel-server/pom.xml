@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.5</version>
+        <version>3.5.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.mlodzirazem.mrpanel</groupId>
@@ -39,6 +39,7 @@
         <kotlin.version>2.2.20</kotlin.version>
         <kotest.version>5.9.1</kotest.version>
         <maven.compiler.target>25</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
     </properties>
     <dependencies>
         <dependency>

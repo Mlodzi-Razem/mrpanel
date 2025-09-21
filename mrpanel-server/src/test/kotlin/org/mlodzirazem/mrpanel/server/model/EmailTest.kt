@@ -48,4 +48,11 @@ class EmailTest : DescribeSpec({
         }
     }
 
+    describe("toString") {
+        it("returns value") {
+            forAll(Arb.email()) { email ->
+                Email(email).toString() == email
+            }
+        }
+    }
 })
