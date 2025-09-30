@@ -10,7 +10,7 @@ export function buildColumnsFromHeaders(headernames : string[]): ColumnDef<strin
                 return ""
             }
         },
-        filterFn: 'auto'    // let's see if that will work nicely.
+        filterFn: 'auto'    // let's see if that will work nicely. -> it doesn't
         
     }));
 }
