@@ -1,8 +1,8 @@
 "use client"
-import "./Table.css"
+import styles from "./Table.module.scss"
 import TableHeader from "./TableHeader";
 import { buildColumnsFromHeaders } from "./TableHelper";
-import React from "react";
+import React, { useState } from "react";
 import { useMemo } from "react";
 import {
     useReactTable,
@@ -30,7 +30,9 @@ export default function MRTable({
   filter = true,
   pagination = true,
 }: MRTableProps) {
-    const paginationFallback = { pageIndex: 0, pageSize: 10}
+    const paginationFallback= { pageIndex: 0, pageSize: 10}
+
+    const [rowSelection, setRowSelection] = useState({})
 
     const headers = useMemo(() => buildColumnsFromHeaders(columns), [columns]);
 
@@ -39,20 +41,31 @@ export default function MRTable({
         data,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: filter ? getFilteredRowModel() : undefined,
+        onRowSelectionChange: setRowSelection, //hoist up the row selection state to your own scope
+        state: {
+        rowSelection, //pass the row selection state back to the table instance
+  },
         getPaginationRowModel: pagination ? getPaginationRowModel() : undefined
   });
-
+    console.log(Object.keys(table.getState().rowSelection).length ?? 0)
     const pageCount = pagination ? table.getPageCount() : 1;
     const { pageIndex, pageSize } = table.getState().pagination ?? paginationFallback;
-  
+    const [HowManySelected, ChangeHowManySelected] = useState(0);
+    const rows = table.getState().rowSelection;
+
+    useMemo(() => {
+        const selectedCount = Object.keys(rows).length;
+        ChangeHowManySelected(selectedCount);
+    }, [rows]);
   return(
         <div className={table_name} style={{margin: "5%"}}>
-
-            <div className="mr-table-layout">
+            
+            <div className={styles["mr-table-layout"]}>
+                
                 {pagination && (
-                  <div className="mr-table-toolbar">
-                    <div className="mr-table-controls-left">
-                      <label className="mr-sr-only" htmlFor="mr-pagination-select">Page</label>
+                  <div className={styles["mr-table-toolbar"]}>
+                    <div className={styles["mr-table-controls-left"]}>
+                      <label className={styles["mr-sr-only"]} htmlFor="mr-pagination-select">Page</label>
                       <select
                           id="mr-pagination-select"
                           name="pagination"
@@ -67,8 +80,8 @@ export default function MRTable({
                       </select>
                     </div>
 
-                    <div className="mr-table-controls-right">
-                      <label className="mr-sr-only" htmlFor="mr-page-size-select">Wpisy na strone</label>
+                    <div className={styles["mr-table-controls-right"]}>
+                      <label className={styles["mr-sr-only"]} htmlFor="mr-page-size-select">Wpisy na strone</label>
                       <select
                           id="mr-page-size-select"
                           value={pageSize}
@@ -83,7 +96,8 @@ export default function MRTable({
                 )}
 
                 <div className="mr-table-wrap">
-                    <table className="tableContainer-default"> 
+                    <p>Wybrano {HowManySelected} wierszy</p>
+                    <table className={styles["tableContainer-default"]}> 
                         {/* i want to make this ^ overridable at some point  */}
                         <TableHeader table={table}/>
                         <TableBody table={table}/>

@@ -46,6 +46,7 @@ const TableHeader = <TData,>({ table }: TableHeaderProps<TData>) => {
               )}
             </th>
           ))}
+          <th style={{ width: 0, padding: 0 }} key={`${headerGroup.id}-checkbox`} aria-hidden="true"></th>
         </tr>
       ))}
     </thead>

@@ -1,5 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-
 export function buildColumnsFromHeaders(headernames : string[]): ColumnDef<string>[] {
     return headernames.map((h) => ({
         header: h,
@@ -12,5 +11,6 @@ export function buildColumnsFromHeaders(headernames : string[]): ColumnDef<strin
             }
         },
         filterFn: 'auto'    // let's see if that will work nicely.
+        
     }));
 }

@@ -11,6 +11,9 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.2",
     "@tanstack/react-table": "^8.21.3",
     "lucide-react": "^0.539.0",
     "next": "^15.5.4",
