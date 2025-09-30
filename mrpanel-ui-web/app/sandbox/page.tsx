@@ -1,12 +1,14 @@
 "use client"
 import { useMemo } from "react";
 import MRTable from "@/components/table/Table"
-import { type MRTableProps } from "@/components/table/Table"
-import { ColumnDef } from "@tanstack/react-table";
+import mockData from "./MOCK_DATA.json"; // import local JSON
+
+// To create a table we need: a type, some typed Data,
+// an array of Strings which correspond to headers, and et voila
 
 type Member = {
-  firstName: string;
-  lastName: string;
+  first_Name: string;
+  last_Name: string;
   age: number;
   visits: number;
   progress: number;
@@ -14,20 +16,27 @@ type Member = {
 };
 
 export const Sandbox = () => {
+    // completely unneeded, but fun!
     const members: Member[] = useMemo(
-    () => [
-      { firstName: "Alice", lastName: "Smith", age: 28, visits: 4, progress: 50, status: "active" },
-      { firstName: "Bob", lastName: "Jones", age: 34, visits: 10, progress: 80, status: "inactive" },
-    ],
-    []
-  );
+      () =>
+        (mockData as Array<{ first_name: string; last_name: string; age: number; visits: number; progress: number; status: string }>).map((m) => ({
+          first_Name: m.first_name,
+          last_Name: m.last_name,
+          age: m.age,
+          visits: m.visits,
+          progress: m.progress,
+          status: m.status,
+        })),
+      []
+    );
 
-  const data = useMemo<string[]>(
-    () => members.map((m) => JSON.stringify(m)),
-    [members]
-  );
+    // keep same format as before: array of JSON strings
+    const data = useMemo<string[]>(
+      () => members.map((m) => JSON.stringify(m)),
+      [members]
+    );
 
-    const columns = ["firstName", "lastName", "age", "visits", "progress", "status"];
+    const columns = ["first_Name", "last_Name", "age", "visits", "progress", "status"];
     
     return(
         <div>
