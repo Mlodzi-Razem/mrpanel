@@ -1,109 +1,108 @@
-"use client"
-import styles from "./Table.module.scss"
-import TableHeader from "./TableHeader";
-import { buildColumnsFromHeaders } from "./TableHelper";
-import React, { useState } from "react";
-import { useMemo } from "react";
-import {
-    useReactTable,
-    getCoreRowModel,
-    getPaginationRowModel,
-    //getSortedRowModel,
-    getFilteredRowModel,
-    //SortingState,
-    //PaginationState,
-} from "@tanstack/react-table";
-import TableBody from "./TableBody";
+"use client";
 
-export interface MRTableProps {
-    data: string[],
-    columns: string[],
-    table_name: string,
-    filter?: boolean,
-    pagination?: boolean,
+import React from "react";
+import styles from "./Table.module.scss";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import Pagination from "./pagination/Pagination";
+import { MRTableProps } from "./Table.types";
+
+function buildGridColumnTemplate(showSelection: boolean, columnCount: number): string {
+  const selectionColumn = showSelection ? "max-content " : "";
+  const dataColumns = Array(columnCount).fill("minmax(0,1fr)").join(" ");
+  return selectionColumn + dataColumns;
 }
 
-export default function MRTable({
+function countSelectedRows(selectedRowIds?: Set<string> | string[]): number {
+  if (!selectedRowIds) return 0;
+  if (selectedRowIds instanceof Set) return selectedRowIds.size;
+  return Array.isArray(selectedRowIds) ? selectedRowIds.length : 0;
+}
+
+function createScrollHandler(onScrollBeyondLastRow: () => void) {
+  return (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const scrollTop = target.scrollTop;
+    const scrollHeight = target.scrollHeight;
+    const clientHeight = target.clientHeight;
+    const threshold = 10;
+
+    if (scrollTop + clientHeight >= scrollHeight - threshold) {
+      onScrollBeyondLastRow();
+    }
+  };
+}
+
+/**
+ * Generates array of page numbers [1, 2, 3, ..., totalPages]
+ */
+function generatePageNumbers(totalPages: number): number[] {
+  return Array.from({ length: totalPages }, (_, i) => i + 1);
+}
+
+function SelectionInfo({ count }: { count: number }) {
+  return (
+    <div className={styles["mr-selection-info"]}>
+      Wybrano {count} wierszy
+    </div>
+  );
+}
+
+/**
+ * MRTable - Stateless table component using CSS Grid + Subgrid
+
+ * - No internal state - renders purely from props - 
+ * - Uses CSS Grid for layout with subgrid for column alignment
+ * - Supports offset pagination (via pagination prop)
+ * - Supports cursor pagination (via onScrollBeyondLastRow callback)
+ * - Custom cell renderers via column.renderCell
+ * - Optional row selection with checkboxes
+ */
+export default function MRTable<Row = Record<string, unknown>>({
   data,
   columns,
   table_name,
-  filter = true,
-  pagination = true,
-}: MRTableProps) {
-    const paginationFallback= { pageIndex: 0, pageSize: 10}
+  showSelection = false,
+  selectedRowIds,
+  onRowToggle,
+  getRowId = (_row, index) => String(index),
+  pagination,
+  onScrollBeyondLastRow,
+}: MRTableProps<Row>) {
+  const columnTemplate = buildGridColumnTemplate(showSelection, columns.length);
+  const selectedCount = countSelectedRows(selectedRowIds);
+  const handleScroll = onScrollBeyondLastRow ? createScrollHandler(onScrollBeyondLastRow) : undefined;
 
-    const [rowSelection, setRowSelection] = useState({})
+  return (
+    <div className={styles["mr-table-layout"]}>
+      {showSelection && <SelectionInfo count={selectedCount} />}
 
-    const headers = useMemo(() => buildColumnsFromHeaders(columns), [columns]);
+      <div
+        className={`${styles["mr-table"]} ${table_name || ""}`}
+        style={{ gridTemplateColumns: columnTemplate }}
+      >
+        <TableHeader headers={columns} showSelection={showSelection} />
 
-    const table = useReactTable({
-        columns: headers,
-        data,
-        getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: filter ? getFilteredRowModel() : undefined,
-        onRowSelectionChange: setRowSelection, //hoist up the row selection state to your own scope
-        state: {
-        rowSelection, //pass the row selection state back to the table instance
-  },
-        getPaginationRowModel: pagination ? getPaginationRowModel() : undefined
-  });
-    console.log(Object.keys(table.getState().rowSelection).length ?? 0)
-    const pageCount = pagination ? table.getPageCount() : 1;
-    const { pageIndex, pageSize } = table.getState().pagination ?? paginationFallback;
-    const [HowManySelected, ChangeHowManySelected] = useState(0);
-    const rows = table.getState().rowSelection;
+        <TableBody
+          data={data}
+          columns={columns}
+          showSelection={showSelection}
+          selectedRowIds={selectedRowIds}
+          onRowToggle={onRowToggle}
+          getRowId={getRowId}
+          onScroll={handleScroll}
+        />
+      </div>
 
-    useMemo(() => {
-        const selectedCount = Object.keys(rows).length;
-        ChangeHowManySelected(selectedCount);
-    }, [rows]);
-  return(
-        <div className={table_name} style={{margin: "5%"}}>
-            
-            <div className={styles["mr-table-layout"]}>
-                
-                {pagination && (
-                  <div className={styles["mr-table-toolbar"]}>
-                    <div className={styles["mr-table-controls-left"]}>
-                      <label className={styles["mr-sr-only"]} htmlFor="mr-pagination-select">Page</label>
-                      <select
-                          id="mr-pagination-select"
-                          name="pagination"
-                          value={pageIndex}
-                          onChange={(e) => table.setPageIndex(Number(e.target.value))}
-                      >
-                          {Array.from({ length: pageCount }, (_, i) => (
-                              <option key={i} value={i}>
-                                  Strona {i + 1}
-                              </option>
-                          ))}
-                      </select>
-                    </div>
-
-                    <div className={styles["mr-table-controls-right"]}>
-                      <label className={styles["mr-sr-only"]} htmlFor="mr-page-size-select">Wpisy na strone</label>
-                      <select
-                          id="mr-page-size-select"
-                          value={pageSize}
-                          onChange={(e) => table.setPageSize(Number(e.target.value))}
-                      >
-                          {[5, 10, 20, 50, 100].map((s) => (
-                              <option key={s} value={s}>{s} / strona</option>
-                          ))}
-                      </select>
-                    </div>
-                  </div>
-                )}
-
-                <div className="mr-table-wrap">
-                    <p>Wybrano {HowManySelected} wierszy</p>
-                    <table className={styles["tableContainer-default"]}> 
-                        {/* i want to make this ^ overridable at some point  */}
-                        <TableHeader table={table}/>
-                        <TableBody table={table}/>
-                    </table>
-                </div>
-            </div>
-        </div>
-    )
+      {pagination && (
+        <Pagination
+          pages={generatePageNumbers(pagination.totalPages)}
+          currentPage={pagination.currentPage}
+          onPageChange={pagination.onPageChange}
+          onPrev={() => pagination.onPageChange(Math.max(1, pagination.currentPage - 1))}
+          onNext={() => pagination.onPageChange(Math.min(pagination.totalPages, pagination.currentPage + 1))}
+        />
+      )}
+    </div>
+  );
 }

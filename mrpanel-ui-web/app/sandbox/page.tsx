@@ -1,7 +1,8 @@
 "use client"
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import MRTable from "@/components/table/Table"
-import mockData from "./MOCK_DATA.json"; // import local JSON
+import { MRTableColumn } from "@/components/table/Table.types";
+import mockData from "./MOCK_DATA.json";
 
 // To create a table we need: a type, some typed Data,
 // an array of Strings which correspond to headers, and et voila
@@ -15,7 +16,12 @@ type Member = {
   status: string;
 };
 
+const ITEMS_PER_PAGE = 10;
+
 export const Sandbox = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedRowIds, setSelectedRowIds] = useState<Set<string>>(new Set());
+
     // completely unneeded, but fun!
     const members: Member[] = useMemo(
       () =>
@@ -30,17 +36,54 @@ export const Sandbox = () => {
       []
     );
 
-    // keep same format as before: array of JSON strings
-    const data = useMemo<string[]>(
-      () => members.map((m) => JSON.stringify(m)),
-      [members]
+    const totalPages = Math.ceil(members.length / ITEMS_PER_PAGE);
+
+    const paginatedData = useMemo(() => {
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = startIndex + ITEMS_PER_PAGE;
+      return members.slice(startIndex, endIndex);
+    }, [members, currentPage]);
+
+    const columns: MRTableColumn<Member>[] = useMemo(
+      () => [
+        { id: "first_Name", header: "First Name" },
+        { id: "last_Name", header: "Last Name" },
+        { id: "age", header: "Age" },
+        { id: "visits", header: "Visits" },
+        { id: "progress", header: "Progress" },
+        { id: "status", header: "Status" },
+      ],
+      []
     );
 
-    const columns = ["first_Name", "last_Name", "age", "visits", "progress", "status"];
-    
+    const handleRowToggle = (rowId: string, selected: boolean) => {
+      setSelectedRowIds(prev => {
+        const newSet = new Set(prev);
+        if (selected) {
+          newSet.add(rowId);
+        } else {
+          newSet.delete(rowId);
+        }
+        return newSet;
+      });
+    };
+
     return(
-        <div>
-            <MRTable data={data} columns={columns} table_name={"asd"}></MRTable>
+        <div style={{margin: "5%"}}>
+            <MRTable 
+              data={paginatedData} 
+              columns={columns} 
+              table_name="asd"
+              showSelection={true}
+              selectedRowIds={selectedRowIds}
+              onRowToggle={handleRowToggle as (rowId: string, selected: boolean) => void}
+              getRowId={(row: Member, index: number): string => `${row.first_Name}-${row.last_Name}-${index}`}
+              pagination={{
+                currentPage: currentPage,
+                totalPages: totalPages,
+                onPageChange: setCurrentPage,
+              }}
+            />
         </div>
     )
 }
