@@ -1,7 +1,9 @@
 package org.mlodzirazem.mrpanel.server.db.member
 
 import io.kotest.assertions.assertSoftly
+import io.kotest.core.extensions.ApplyExtension
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.shouldBe
 import jakarta.persistence.EntityManager
 import org.mlodzirazem.mrpanel.server.member.db.DbMember
@@ -13,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.support.TransactionTemplate
 
+@ApplyExtension(SpringExtension::class)
 @SpringBootTest
 @EnableTestPostgresql
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

@@ -1,7 +1,9 @@
 package org.mlodzirazem.mrpanel.server.audit
 
 import com.ninjasquad.springmockk.MockkBean
+import io.kotest.core.extensions.ApplyExtension
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.shouldBe
 import io.mockk.*
 import org.junit.jupiter.api.assertThrows
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component
 private const val SUCCESSFUL_OPERATION_ID = "SUCCESSFUL_OPERATION_ID"
 private const val FAILED_OPERATION_ID = "FAILED_OPERATION_ID"
 
+@ApplyExtension(SpringExtension::class)
 @SpringBootTest(classes = [AuditAspect::class, AuditAspectTest.AuditedTestClass::class])
 @EnableAspectJAutoProxy
 class AuditAspectTest(

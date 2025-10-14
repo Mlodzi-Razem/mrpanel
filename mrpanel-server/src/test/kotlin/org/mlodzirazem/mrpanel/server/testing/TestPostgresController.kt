@@ -14,7 +14,7 @@ object TestPostgresController {
     var schemaDumped = false
         private set
 
-    private val postgresContainer = PostgreSQLContainer<Nothing>("postgres:17.5")
+    private val postgresContainer = PostgreSQLContainer<Nothing>("postgres:18-alpine")
 
     val jdbcProperties
         get() = if (postgresContainer.isRunning) JdbcProperties(
@@ -26,7 +26,7 @@ object TestPostgresController {
     @Synchronized
     fun startContainer() {
         if (!postgresContainer.isRunning) {
-            Startables.deepStart(postgresContainer).join()
+            postgresContainer.start()
         }
     }
 

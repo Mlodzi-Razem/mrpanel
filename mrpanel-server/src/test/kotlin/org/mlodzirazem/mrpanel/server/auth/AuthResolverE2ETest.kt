@@ -1,6 +1,8 @@
 package org.mlodzirazem.mrpanel.server.auth
 
+import io.kotest.core.extensions.ApplyExtension
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.extensions.spring.SpringExtension
 import org.hamcrest.Matchers.equalTo
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Import
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 private const val USER_EMAIL = "user@email.com"
 private const val USER_NAME = "User Name"
 
+@ApplyExtension(SpringExtension::class)
 @WebMvcTest(AuthResolverE2ETestController::class)
 @Import(AuthResolver::class)
 class AuthResolverE2ETest(private val mockMvc: MockMvc) : FunSpec({

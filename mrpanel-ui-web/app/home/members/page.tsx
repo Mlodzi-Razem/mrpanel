@@ -1,3 +1,5 @@
+"use client";
+
 import Page from "@/components/layout/page/Page";
 
 export default async function MembersPage() {

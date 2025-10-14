@@ -1,6 +1,8 @@
 package org.mlodzirazem.mrpanel.server.auth
 
 import com.ninjasquad.springmockk.MockkBean
+import io.kotest.core.extensions.ApplyExtension
+import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.shouldBe
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Import
 /**
  * Uses Spring container because of the @Cacheable annotation
  */
+@ApplyExtension(SpringExtension::class)
 @AutoConfigureCache(cacheProvider = CacheType.SIMPLE)
 @Import(UserAuthProfileFinder::class)
 class UserAuthProfileFinderTest(
@@ -33,6 +36,4 @@ class UserAuthProfileFinderTest(
             }
         }
     }
-}) {
-    override fun extensions() = listOf(SpringExtension)
-}
+})

@@ -1,22 +1,17 @@
 package org.mlodzirazem.mrpanel.server.db
 
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.equals.shouldBeEqual
 import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceContext
-import org.mlodzirazem.mrpanel.server.testing.EnableTestPostgresql
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.mlodzirazem.mrpanel.server.testing.PostgresJpaTest
 import org.mlodzirazem.mrpanel.server.testing.TestPostgresController.restoreSchema
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.support.TransactionTemplate
 
-@DataJpaTest
-@EnableTestPostgresql
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@PostgresJpaTest
 class DbMigrationTest(
     private val transactionTemplate: TransactionTemplate,
-    @PersistenceContext private val entityManager: EntityManager
+    private val entityManager: EntityManager
 ) : DescribeSpec({
     beforeSpec {
         restoreSchema()
@@ -24,31 +19,33 @@ class DbMigrationTest(
 
     describe("context") {
         it("starts with empty database") {
-            entityManager.createNativeQuery("SELECT COUNT(*) FROM members_trace").singleResult shouldBe 0
+            entityManager.createNativeQuery("SELECT COUNT(*) FROM members_trace").singleResult shouldBeEqual 0L
         }
+
         it("saves members_trace") {
-            transactionTemplate.execute {
-                entityManager.createNativeQuery("INSERT INTO members_trace (id, preferred_name, email) VALUES (1, 'name', 'email')")
-                    .executeUpdate()
+            assertDoesNotThrow {
+                transactionTemplate.executeWithoutResult {
+                    entityManager.createNativeQuery("INSERT INTO members_trace (id, preferred_name, email) VALUES (1, 'name', 'email')")
+                        .executeUpdate()
+                }
             }
         }
+
         it("preserves members_trace between test methods") {
-            entityManager.createNativeQuery("SELECT COUNT(*) FROM members_trace").singleResult shouldBe 1
+            entityManager.createNativeQuery("SELECT COUNT(*) FROM members_trace").singleResult shouldBeEqual 1L
         }
     }
 })
 
-@DataJpaTest
-@EnableTestPostgresql
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class DbSecondContextTest(@PersistenceContext private val entityManager: EntityManager) : DescribeSpec({
+@PostgresJpaTest
+class DbSecondContextTest(private val entityManager: EntityManager) : DescribeSpec({
     beforeSpec {
         restoreSchema()
     }
 
     describe("context") {
         it("starts with empty database") {
-            entityManager.createNativeQuery("SELECT COUNT(*) FROM members_trace").singleResult shouldBe 0
+            entityManager.createNativeQuery("SELECT COUNT(*) FROM members_trace").singleResult shouldBeEqual 0L
         }
     }
 })
