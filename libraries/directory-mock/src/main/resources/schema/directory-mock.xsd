@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.mlodzirazem.org/mrpanel/directory-mock"
+        xmlns:mr="http://www.mlodzirazem.org/mrpanel/directory-mock">
+    <element name="directory-mock">
+        <complexType>
+            <all>
+                <element type="mr:UsersMock" name="users"/>
+                <element type="mr:GroupsMock" name="groups"/>
+            </all>
+        </complexType>
+    </element>
+
+    <complexType name="UsersMock">
+        <sequence maxOccurs="unbounded">
+            <element name="user" type="mr:UserMock"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="UserMock">
+        <sequence>
+            <element name="additionalEmails" type="mr:UserMockEmails" minOccurs="0"/>
+        </sequence>
+        <attribute name="id" type="normalizedString" use="required"/>
+        <attribute name="name" type="normalizedString" use="required"/>
+        <attribute name="email" type="normalizedString" use="required"/>
+    </complexType>
+    <complexType name="UserMockEmails">
+        <sequence maxOccurs="unbounded">
+            <element name="email" type="normalizedString"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="GroupsMock">
+        <sequence maxOccurs="unbounded">
+            <element name="group" type="mr:GroupMock"/>
+        </sequence>
+    </complexType>
+    <complexType name="GroupMock">
+        <sequence minOccurs="0">
+            <element name="members" type="mr:GroupMembers"/>
+        </sequence>
+        <attribute name="id" type="normalizedString" use="required"/>
+        <attribute name="name" type="normalizedString" use="required"/>
+        <attribute name="email" type="normalizedString" use="required"/>
+    </complexType>
+
+    <complexType name="GroupMembers">
+        <sequence minOccurs="0" maxOccurs="unbounded">
+            <element name="id" type="normalizedString"/>
+        </sequence>
+    </complexType>
+</schema>

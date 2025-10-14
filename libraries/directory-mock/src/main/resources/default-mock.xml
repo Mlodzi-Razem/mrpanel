@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<mr:directory-mock xmlns:mr="http://www.mlodzirazem.org/mrpanel/directory-mock">
+    <users>
+        <user id="0001" name="Kamil Łapiński" email="kamil.lapinski@mlodzirazem.org">
+            <additionalEmails>
+                <email>contact@lapinski.dev</email>
+            </additionalEmails>
+        </user>
+        <user id="0002" name="Michał Grobecki" email="michal.grobecki@mlodzirazem.org">
+            <additionalEmails>
+                <email>grobecki@pomorskie.pl</email>
+            </additionalEmails>
+        </user>
+    </users>
+    <groups>
+        <group id="G01" name="everyone" email="everyone@mlodzirazem.org">
+            <members>
+                <id>0001</id>
+                <id>0002</id>
+            </members>
+        </group>
+        <group id="G02" name="Mazowieckie" email="mazowieckie.wszyscy@mlodzirazem.org">
+            <members>
+                <id>0001</id>
+            </members>
+        </group>
+    </groups>
+</mr:directory-mock>
