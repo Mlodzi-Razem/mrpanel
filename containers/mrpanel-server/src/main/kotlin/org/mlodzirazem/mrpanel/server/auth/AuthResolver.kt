@@ -1,8 +1,6 @@
 package org.mlodzirazem.mrpanel.server.auth
 
 import org.springframework.stereotype.Component
-import org.springframework.web.context.request.RequestContextHolder
-import org.springframework.web.context.request.ServletRequestAttributes
 
 /**
  * Resolves authentication information for the current HTTP request.
