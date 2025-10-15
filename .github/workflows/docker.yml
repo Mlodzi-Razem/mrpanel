@@ -25,17 +25,21 @@ jobs:
         env:
           SOURCE_TAG: ${{ env.SOURCE_TAG }}
       - name: Build mrpanel-server
-        run: docker build . \
+        run: |
+          docker build \
              --file=deployment/docker/mrpanel-server.Dockerfile \
              -t $TAG_PREFIX/mrpanel-server:$SOURCE_TAG \
-             -t $TAG_PREFIX/mrpanel-server:latest
+             -t $TAG_PREFIX/mrpanel-server:latest \
+              ./
         env:
           SOURCE_TAG: ${{ env.SOURCE_TAG }}
       - name: Build mrpanel-ui-web
-        run: docker build . \
-          --file=deployment/docker/mrpanel-ui-web.Dockerfile \
-          -t $TAG_PREFIX/mrpanel-ui-web:$SOURCE_TAG \
-          -t $TAG_PREFIX/mrpanel-ui-web:latest
+        run: | 
+          docker build \
+            --file=deployment/docker/mrpanel-ui-web.Dockerfile \
+            -t $TAG_PREFIX/mrpanel-ui-web:$SOURCE_TAG \
+            -t $TAG_PREFIX/mrpanel-ui-web:latest \
+            ./
         env:
           SOURCE_TAG: ${{ env.SOURCE_TAG }}
       - name: Login to GitHub Container Registry
