@@ -35,10 +35,10 @@ COPY --from=builder --chown=mrpanel:mrpanel /mrpanel/containers/mrpanel-ui-web/.
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=8081
 ENV HOSTNAME="0.0.0.0"
 
-EXPOSE 3000
+EXPOSE 8081
 ENTRYPOINT ["/bin/sh", "-c", "./mrpanel-ui-web.launch.sh"]
 HEALTHCHECK --interval=10s \
             --timeout=5s \
