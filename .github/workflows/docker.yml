@@ -9,7 +9,7 @@ jobs:
     permissions:
       packages: write
     env:
-      TAG_PREFIX: ghcr.io/Mlodzi-Razem
+      TAG_PREFIX: ghcr.io/mlodzi-razem
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
