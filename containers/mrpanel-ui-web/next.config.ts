@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             new URL("https://**.googleusercontent.com/**")
         ]
-    }
+    },
+    output: "standalone"
 };
 
 export default nextConfig;

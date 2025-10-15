@@ -1,0 +1,51 @@
+name: Build and deploy Docker images
+on:
+  release:
+    types:
+      - released
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      packages: write
+    env:
+      TAG_PREFIX: ghcr.io/Mlodzi-Razem
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Set Git variables
+        run: |
+          echo "SOURCE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      - name: Set project version in pom.xml
+        run: mvn versions:set -DnewVersion=$SOURCE_TAG
+        env:
+          SOURCE_TAG: ${{ env.SOURCE_TAG }}
+      - name: Set project version in Docker config
+        run: grep -rlZ "0.0.1-SNAPSHOT" ./deployment/docker | xargs -0 sed -i "s/0.0.1-SNAPSHOT/$SOURCE_TAG/g"
+        env:
+          SOURCE_TAG: ${{ env.SOURCE_TAG }}
+      - name: Build mrpanel-server
+        run: docker build . \
+             --file=deployment/docker/mrpanel-server.Dockerfile \
+             -t $TAG_PREFIX/mrpanel-server:$SOURCE_TAG \
+             -t $TAG_PREFIX/mrpanel-server:latest
+        env:
+          SOURCE_TAG: ${{ env.SOURCE_TAG }}
+      - name: Build mrpanel-ui-web
+        run: docker build . \
+          --file=deployment/docker/mrpanel-ui-web.Dockerfile \
+          -t $TAG_PREFIX/mrpanel-ui-web:$SOURCE_TAG \
+          -t $TAG_PREFIX/mrpanel-ui-web:latest
+        env:
+          SOURCE_TAG: ${{ env.SOURCE_TAG }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push mrpanel-server
+        run: docker push --all-tags $TAG_PREFIX/mrpanel-server
+      - name: Push mrpanel-ui-web
+        run: docker push --all-tags $TAG_PREFIX/mrpanel-ui-web
+

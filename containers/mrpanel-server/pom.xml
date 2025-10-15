@@ -171,10 +171,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
                 <configuration>
                     <layout>JAR</layout>
-                    <mainClass>org.mlodzirazem.mrpanel.server.MrpanelServerApplication</mainClass>
+                    <mainClass>org.mlodzirazem.mrpanel.server.MrpanelServerApplicationKt</mainClass>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
                 </configuration>
                 <executions>
                     <execution>
@@ -187,7 +189,6 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
             </plugin>
         </plugins>
     </build>

@@ -2,7 +2,7 @@
 
 import Page from "@/components/layout/page/Page";
 
-export default async function MembersPage() {
+export default function MembersPage() {
     return <Page>
         <h3>Członkowie</h3>
     </Page>;
