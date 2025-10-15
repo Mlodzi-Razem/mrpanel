@@ -35,12 +35,12 @@ COPY --from=builder --chown=mrpanel:mrpanel /mrpanel/containers/mrpanel-ui-web/.
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-ENV PORT=8081
+ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-EXPOSE 8081
+EXPOSE 3000
 ENTRYPOINT ["/bin/sh", "-c", "./mrpanel-ui-web.launch.sh"]
 HEALTHCHECK --interval=10s \
             --timeout=5s \
             --retries=10 \
-            CMD curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8081/api/health | grep ok || exit 1
+            CMD curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:3000/api/health | grep ok || exit 1
