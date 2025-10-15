@@ -26,7 +26,7 @@ jobs:
           SOURCE_TAG: ${{ env.SOURCE_TAG }}
       - name: Build mrpanel-server
         run: |
-          docker build \
+          docker build --no-cache \
              --file=deployment/docker/mrpanel-server.Dockerfile \
              -t $TAG_PREFIX/mrpanel-server:$SOURCE_TAG \
              -t $TAG_PREFIX/mrpanel-server:latest \
@@ -35,7 +35,7 @@ jobs:
           SOURCE_TAG: ${{ env.SOURCE_TAG }}
       - name: Build mrpanel-ui-web
         run: | 
-          docker build \
+          docker build --no-cache \
             --file=deployment/docker/mrpanel-ui-web.Dockerfile \
             -t $TAG_PREFIX/mrpanel-ui-web:$SOURCE_TAG \
             -t $TAG_PREFIX/mrpanel-ui-web:latest \
