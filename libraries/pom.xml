@@ -15,8 +15,8 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
+        <module>model</module>
         <module>directory-api</module>
         <module>directory-mock</module>
-        <module>model</module>
     </modules>
 </project>
