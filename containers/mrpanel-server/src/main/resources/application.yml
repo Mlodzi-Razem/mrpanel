@@ -17,3 +17,13 @@ spring:
     locations: "classpath:db/migration"
 server:
   port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: 9080

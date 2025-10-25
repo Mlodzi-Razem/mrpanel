@@ -2,6 +2,6 @@
 
 JAVA_OPTS="${JAVA_OPTS:-}"
 TIMEZONE="${TIMEZONE:-Europe/Warsaw}"
-MAX_MEM="${MAX_MEM:-2048m}"
+MAX_MEM="${MAX_MEM:?MAX_MEM environment variable is required}"
 
 java "$JAVA_OPTS" "-DXmx${MAX_MEM}" "-Duser.timezone=${TIMEZONE}" org.springframework.boot.loader.launch.JarLauncher

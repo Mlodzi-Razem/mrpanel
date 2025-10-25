@@ -38,4 +38,8 @@ ENTRYPOINT ["/bin/sh", "-c", "./mrpanel-ui-web.launch.sh"]
 HEALTHCHECK --interval=10s \
             --timeout=5s \
             --retries=10 \
-            CMD curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8081/api/health | grep ok || exit 1
+    CMD curl -s \
+             -H "Accept: application/json" \
+             -H "Content-Type: application/json" \
+             -X GET http://localhost:8081/api/health \
+    | grep ok || exit 1
