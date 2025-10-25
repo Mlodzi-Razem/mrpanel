@@ -5,7 +5,7 @@ function registerMetricsIfNeeded() {
     if (!('metricsRegistered' in globalThis)) {
         const prefix = 'mrpanel_ui_web';
         collectDefaultMetrics({prefix});
-        (globalThis as any).metricsRegistered = true;
+        (globalThis as unknown as {metricsRegistered: boolean}).metricsRegistered = true;
     }
 }
 
