@@ -12,7 +12,7 @@ import org.mlodzirazem.mrpanel.libraries.directory.api.user.User
 import org.mlodzirazem.mrpanel.libraries.directory.api.user.UserSource
 import org.mlodzirazem.mrpanel.model.Email
 import org.springframework.boot.autoconfigure.cache.CacheType
-import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache
+import org.springframework.boot.cache.test.autoconfigure.AutoConfigureCache
 import org.springframework.context.annotation.Import
 
 /**

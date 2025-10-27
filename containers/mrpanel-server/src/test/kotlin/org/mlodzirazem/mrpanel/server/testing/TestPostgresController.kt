@@ -1,7 +1,7 @@
 package org.mlodzirazem.mrpanel.server.testing
 
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.postgresql.PostgreSQLContainer
 
 data class JdbcProperties(val url: String, val username: String, val password: String)
 
@@ -12,7 +12,7 @@ object TestPostgresController {
     var schemaDumped = false
         private set
 
-    private val postgresContainer = PostgreSQLContainer<Nothing>("postgres:18-alpine")
+    private val postgresContainer = PostgreSQLContainer("postgres:18-alpine")
 
     val jdbcProperties
         get() = if (postgresContainer.isRunning) JdbcProperties(
