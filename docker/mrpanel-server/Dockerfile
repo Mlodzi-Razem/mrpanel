@@ -17,17 +17,20 @@ WORKDIR /mrpanel/containers/mrpanel-server
 RUN mv target/*.jar /mrpanel-out/application.jar
 
 WORKDIR /mrpanel-out
-RUN java -Djarmode=tools -jar application.jar extract --layers --launcher --destination extracted
+RUN java -Djarmode=tools \
+         -jar application.jar \
+          extract --layers \
+         --launcher \
+         --destination extracted
 
 # --------------------------------------------
 FROM eclipse-temurin:25-alpine
 LABEL vendor="Stowarzyszenie Młodzi Razem"
 LABEL org.mlodzirazem.mrpanel.container.id="mrpanel-server"
-LABEL org.mlodzirazem.mrpanel.container.version="0.0.1-SNAPSHOT"
+LABEL org.mlodzirazem.mrpanel.container.version="0.0.0-MRPANEL-SNAPSHOT"
 
-
-RUN apk --no-cache add curl jq
-RUN addgroup mrpanel;\
+RUN apk --no-cache add curl jq; \
+    addgroup mrpanel; \
     adduser  --ingroup mrpanel --disabled-password mrpanel
 
 WORKDIR /application
@@ -42,7 +45,7 @@ USER mrpanel
 COPY --chmod=544 \
      --chown=mrpanel:mrpanel \
      --from=builder \
-     /mrpanel/deployment/docker/mrpanel-server.launch.sh ./
+     /mrpanel/docker/mrpanel-server/*.sh ./
 
 ENV JAVA_OPTS="-Dfile.encoding=UTF-8 \
                -XX:NativeMemoryTracking=summary \
@@ -54,12 +57,8 @@ EXPOSE 8080
 # Actuator
 EXPOSE 9080
 
-ENTRYPOINT ["/bin/sh", "-c", "./mrpanel-server.launch.sh"]
+ENTRYPOINT ["/bin/sh", "/application/launch.sh"]
 HEALTHCHECK --interval=10s \
             --timeout=5s \
             --retries=10 \
-    CMD curl -s \
-             -H "Accept: application/json" \
-             -H "Content-Type: application/json" \
-             -X GET http://localhost:9080/actuator/health \
-    | jq ".status" | grep UP || exit 1
+    CMD /application/healthcheck.sh

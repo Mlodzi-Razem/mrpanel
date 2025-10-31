@@ -6,12 +6,12 @@
 
     <groupId>org.mlodzirazem.mrpanel.libraries</groupId>
     <artifactId>model</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.0-MRPANEL-SNAPSHOT</version>
 
     <parent>
         <groupId>org.mlodzirazem.mrpanel</groupId>
         <artifactId>mrpanel-libraries</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.0-MRPANEL-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

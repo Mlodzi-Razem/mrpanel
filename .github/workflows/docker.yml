@@ -21,13 +21,13 @@ jobs:
         env:
           SOURCE_TAG: ${{ env.SOURCE_TAG }}
       - name: Set project version in Docker config
-        run: grep -rlZ "0.0.1-SNAPSHOT" ./deployment/docker | xargs -0 sed -i "s/0.0.1-SNAPSHOT/$SOURCE_TAG/g"
+        run: grep -rlZ "0.0.0-MRPANEL-SNAPSHOT" ./docker | xargs -0 sed -i "s/0.0.0-MRPANEL-SNAPSHOT/$SOURCE_TAG/g"
         env:
           SOURCE_TAG: ${{ env.SOURCE_TAG }}
       - name: Build mrpanel-server
         run: |
           docker build --no-cache \
-             --file=deployment/docker/mrpanel-server.Dockerfile \
+             --file=docker/mrpanel-server/Dockerfile \
              -t $TAG_PREFIX/mrpanel-server:$SOURCE_TAG \
              -t $TAG_PREFIX/mrpanel-server:latest \
               ./
@@ -36,7 +36,7 @@ jobs:
       - name: Build mrpanel-ui-web
         run: | 
           docker build --no-cache \
-            --file=deployment/docker/mrpanel-ui-web.Dockerfile \
+            --file=docker/mrpanel-ui-web/Dockerfile \
             -t $TAG_PREFIX/mrpanel-ui-web:$SOURCE_TAG \
             -t $TAG_PREFIX/mrpanel-ui-web:latest \
             ./

@@ -7,7 +7,7 @@
 
     <groupId>org.mlodzirazem.mrpanel</groupId>
     <artifactId>mrpanel-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.0-MRPANEL-SNAPSHOT</version>
 
     <modules>
         <module>libraries</module>

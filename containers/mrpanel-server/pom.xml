@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.mlodzirazem.mrpanel.containers</groupId>
         <artifactId>mrpanel-containers-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.0-MRPANEL-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>mrpanel-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.0-MRPANEL-SNAPSHOT</version>
     <name>mrpanel-server</name>
     <description>mrpanel-server</description>
     <url/>
