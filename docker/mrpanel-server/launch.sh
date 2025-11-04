@@ -2,6 +2,13 @@
 
 JAVA_OPTS="${JAVA_OPTS:-}"
 TIMEZONE="${TIMEZONE:-Europe/Warsaw}"
-MAX_MEM="${MAX_MEM:?MAX_MEM environment variable is required}"
 
-java "$JAVA_OPTS" "-DXmx${MAX_MEM}" "-Duser.timezone=${TIMEZONE}" org.springframework.boot.loader.launch.JarLauncher
+java "-Dfile.encoding=UTF-8" \
+     "-XX:NativeMemoryTracking=summary" \
+     "-XX:+HeapDumpOnOutOfMemoryError" \
+     "-XX:+UseContainerSupport" \
+     "-XX:MaxRAMPercentage:90.0" \
+     "-XX:+UseStringDeduplication" \
+     "-Duser.timezone=${TIMEZONE}" \
+     $JAVA_OPTS \
+     org.springframework.boot.loader.launch.JarLauncher

@@ -47,9 +47,7 @@ COPY --chmod=544 \
      --from=builder \
      /mrpanel/docker/mrpanel-server/*.sh ./
 
-ENV JAVA_OPTS="-Dfile.encoding=UTF-8 \
-               -XX:NativeMemoryTracking=summary \
-               -XX:+HeapDumpOnOutOfMemoryError"
+ENV JAVA_OPTS=""
 
 # API
 EXPOSE 8080
