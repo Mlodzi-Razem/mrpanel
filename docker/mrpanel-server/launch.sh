@@ -7,7 +7,7 @@ java "-Dfile.encoding=UTF-8" \
      "-XX:NativeMemoryTracking=summary" \
      "-XX:+HeapDumpOnOutOfMemoryError" \
      "-XX:+UseContainerSupport" \
-     "-XX:MaxRAMPercentage:90.0" \
+     "-XX:MaxRAMPercentage=90" \
      "-XX:+UseStringDeduplication" \
      "-Duser.timezone=${TIMEZONE}" \
      $JAVA_OPTS \
